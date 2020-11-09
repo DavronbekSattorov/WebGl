@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Thread Mill</title>
+		<style>
+			body { margin: 0; }
+			canvas { display: block; }
+		</style>
+</head>
+<body>
+	<script src="js/three.js"></script>
+		<script src="js/OrbitControls.js"></script>
+		<script>
+			var scene = new THREE.Scene();
+			scene.background = new THREE.Color(0xf0f0f0);
+			var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+
+			var renderer = new THREE.WebGLRenderer();
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			document.body.appendChild( renderer.domElement );
+
+			//mouseMovement
+			window.addEventListener('resize', function(){
+				var width = window.innerWidth;
+				var height = window.innerHeight;
+				renderer.setSize(width,height);
+				camera.aspect = width/height;
+				camera.updateProjectionMatrix();
+			});
+
+			controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+			//ball
+			const ballGeometry = new THREE.SphereGeometry( 5, 32, 32 );
+			const ballMaterial = new THREE.MeshBasicMaterial( {color: "#3569DD", wireframe:true} );
+
+
+			
+			const sphere = new THREE.Mesh( ballGeometry, ballMaterial );
+			sphere.position.y += 11;
+			scene.add( sphere );
+
+			//torus
+			const geometry = new THREE.TorusGeometry( 10, 6, 20, 50 );
+			const material = new THREE.MeshBasicMaterial( { color: "#3569DD", wireframe: true } );
+			const torus = new THREE.Mesh( geometry, material );
+			torus.position.y -= 10;
+			scene.add( torus );
+
+			
+
+			//cameraPosition
+			camera.position.z =30;
+
+			var animate = function () {
+				requestAnimationFrame( animate );
+
+				torus.rotation.z += 0.01;
+				sphere.rotation.z -= 0.01; 				//torus.rotation.y += 0.01;
+				
+				//firstRope.position.x = 5;
+
+
+
+				renderer.render( scene, camera );
+			};
+
+			animate();
+		</script>
+
+</body>
+</html>
